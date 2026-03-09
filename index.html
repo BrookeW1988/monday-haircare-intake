@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Session Questionnaire — Wright Mode × Monday Haircare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --teal: #396a6b;
+            --teal-dark: #2d5556;
+            --coral: #f17a51;
+            --coral-light: #f9a785;
+            --mint: #97d3b4;
+            --sage: #a0b798;
+            --stone: #d4d6cd;
+            --cream: #faf9f7;
+            --white: #ffffff;
+            --dark: #2d2d2d;
+            --medium: #555555;
+            --light: #6b6b6b;
+            --light-border: #e8e8e4;
+            --radius: 14px;
+            --radius-sm: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .brand {
+            font-family: 'DM Serif Display', serif;
+            font-size: 28px;
+            color: var(--teal);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        .brand-sub {
+            font-size: 13px;
+            color: var(--light);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: var(--coral);
+            margin: 24px auto;
+            border-radius: 2px;
+        }
+
+        .hero-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 32px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .hero-for {
+            font-size: 16px;
+            color: var(--light);
+            margin-bottom: 6px;
+        }
+
+        .hero-for strong {
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        .hero-session {
+            display: inline-block;
+            background: var(--teal);
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-top: 12px;
+        }
+
+        .hero-intro {
+            font-size: 15px;
+            color: var(--medium);
+            max-width: 560px;
+            margin: 20px auto 0;
+            line-height: 1.7;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            padding: 0 16px;
+        }
+
+        .progress-step {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 600;
+            border: 2px solid var(--stone);
+            color: var(--stone);
+            background: var(--white);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .progress-step.active {
+            border-color: var(--coral);
+            color: var(--white);
+            background: var(--coral);
+            box-shadow: 0 2px 8px rgba(241, 122, 81, 0.3);
+        }
+
+        .progress-step.completed {
+            border-color: var(--teal);
+            color: var(--white);
+            background: var(--teal);
+        }
+
+        .progress-line {
+            flex: 1;
+            height: 2px;
+            background: var(--stone);
+            max-width: 40px;
+            transition: background 0.3s ease;
+        }
+
+        .progress-line.completed {
+            background: var(--teal);
+        }
+
+        /* Section Card */
+        .section-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 44px 40px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            display: none;
+        }
+
+        .section-card.active { display: block; }
+
+        .section-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--coral);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 26px;
+            color: var(--dark);
+            margin-bottom: 28px;
+        }
+
+        .question-group {
+            margin-bottom: 28px;
+        }
+
+        .question-group:last-of-type {
+            margin-bottom: 0;
+        }
+
+        label.q-label {
+            display: block;
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .q-helper {
+            font-size: 13px;
+            color: var(--light);
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        /* Inputs */
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--cream);
+            border: 1.5px solid var(--light-border);
+            border-radius: var(--radius-sm);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            color: var(--dark);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(57, 106, 107, 0.1);
+        }
+
+        textarea { resize: vertical; min-height: 100px; }
+        textarea.large { min-height: 140px; }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b6b6b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        /* Custom Checkboxes & Radios */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .options-grid.single-col {
+            grid-template-columns: 1fr;
+        }
+
+        .option-item {
+            position: relative;
+        }
+
+        .option-item input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .option-item label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            background: var(--cream);
+            border: 1.5px solid var(--light-border);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--medium);
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+
+        .option-item label:hover {
+            border-color: var(--teal);
+            color: var(--dark);
+        }
+
+        .option-item input:checked + label {
+            border-color: var(--teal);
+            background: rgba(57, 106, 107, 0.06);
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .option-item label .check-icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--stone);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .option-item input[type="radio"] + label .check-icon {
+            border-radius: 50%;
+        }
+
+        .option-item input:checked + label .check-icon {
+            background: var(--teal);
+            border-color: var(--teal);
+        }
+
+        .option-item input:checked + label .check-icon::after {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 10px;
+            border: solid var(--white);
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg) translateY(-1px);
+        }
+
+        .option-item input[type="radio"]:checked + label .check-icon::after {
+            width: 8px;
+            height: 8px;
+            border: none;
+            border-radius: 50%;
+            background: var(--white);
+            transform: none;
+        }
+
+        /* Scale rating */
+        .scale-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--light);
+        }
+
+        .scale-item input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .scale-item {
+            position: relative;
+        }
+
+        .scale-item label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--light-border);
+            background: var(--cream);
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .scale-item label:hover {
+            border-color: var(--teal);
+            color: var(--teal);
+        }
+
+        .scale-item input:checked + label {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: var(--white);
+            box-shadow: 0 2px 8px rgba(57, 106, 107, 0.3);
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid var(--light-border);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-next {
+            background: var(--teal);
+            color: var(--white);
+        }
+
+        .btn-next:hover { background: var(--teal-dark); }
+
+        .btn-back {
+            background: transparent;
+            color: var(--teal);
+            border: 1.5px solid var(--teal);
+        }
+
+        .btn-back:hover {
+            background: rgba(57, 106, 107, 0.06);
+        }
+
+        .btn-submit {
+            background: var(--coral);
+            color: var(--white);
+            padding: 16px 36px;
+            font-size: 16px;
+        }
+
+        .btn-submit:hover { background: #e06a42; }
+
+        .btn-hidden { visibility: hidden; }
+
+        /* Thank You */
+        .thank-you {
+            display: none;
+            text-align: center;
+            padding: 60px 40px;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .thank-you.active { display: block; }
+
+        .checkmark {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .checkmark::after {
+            content: '';
+            display: block;
+            width: 18px;
+            height: 30px;
+            border: solid var(--white);
+            border-width: 0 4px 4px 0;
+            transform: rotate(45deg) translateY(-2px);
+        }
+
+        .thank-you h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 28px;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .thank-you p {
+            color: var(--medium);
+            font-size: 15px;
+            max-width: 440px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            color: var(--light);
+        }
+
+        .footer a {
+            color: var(--teal);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container { padding: 24px 16px 40px; }
+            .section-card { padding: 28px 20px; }
+            .hero-title { font-size: 26px; }
+            .section-title { font-size: 22px; }
+            .options-grid { grid-template-columns: 1fr; }
+            .scale-item label { width: 42px; height: 42px; font-size: 14px; }
+            .nav-buttons { flex-wrap: wrap; gap: 12px; }
+            .btn { width: 100%; justify-content: center; }
+            .btn-hidden { display: none; }
+            .progress-step { width: 28px; height: 28px; font-size: 11px; }
+        }
+
+        /* Print */
+        @media print {
+            body { background: white; }
+            .section-card { display: block !important; box-shadow: none; border: 1px solid #ddd; margin-bottom: 24px; page-break-inside: avoid; }
+            .nav-buttons, .progress-bar { display: none; }
+        }
+
+        /* Submitting state */
+        .btn-submit.submitting {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">Wright Mode</div>
+            <div class="brand-sub">AI Implementation Consultancy</div>
+            <div class="divider"></div>
+            <h1 class="hero-title">Pre-Session Questionnaire</h1>
+            <p class="hero-for">Prepared for <strong>Valentina</strong> at Monday Haircare</p>
+            <span class="hero-session">90-Minute Claude Code Consult</span>
+            <p class="hero-intro">Hi Valentina! To make the most of our time together, I'd love to understand where you're at with your current setup. This should take about 5 minutes.</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-step active" data-step="1">1</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="2">2</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="3">3</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="4">4</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="5">5</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="6">6</div>
+            <div class="progress-line"></div>
+            <div class="progress-step" data-step="7">7</div>
+        </div>
+
+        <!-- Form -->
+        <form id="intake-form">
+            <!-- Hidden FormSubmit config -->
+            <input type="hidden" name="_subject" value="Pre-Consult Intake: Monday Haircare (Valentina)">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="text" name="_honey" style="display:none" tabindex="-1">
+
+            <!-- Section 1: About Your Team -->
+            <div class="section-card active" data-section="1">
+                <div class="section-label">Section 1 of 7</div>
+                <h2 class="section-title">About Your Team</h2>
+
+                <div class="question-group">
+                    <label class="q-label" for="attendees">Who will be attending the session?</label>
+                    <p class="q-helper">Name and role — one per line</p>
+                    <textarea id="attendees" name="Attendees" placeholder="e.g. Valentina Smith — Head of Marketing"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label" for="decision-maker">Who is the primary decision-maker for AI/tech adoption?</label>
+                    <input type="text" id="decision-maker" name="Decision Maker" placeholder="Name and title">
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label" for="team-size">How large is your marketing team?</label>
+                    <select id="team-size" name="Marketing Team Size">
+                        <option value="" disabled selected>Select team size</option>
+                        <option>1–5 people</option>
+                        <option>6–15 people</option>
+                        <option>16–30 people</option>
+                        <option>31–50 people</option>
+                        <option>50+ people</option>
+                    </select>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label">Do you have a dedicated data/analytics team or person?</label>
+                    <div class="options-grid single-col">
+                        <div class="option-item">
+                            <input type="radio" id="analytics-team-yes" name="Analytics Team" value="Yes — dedicated team">
+                            <label for="analytics-team-yes"><span class="check-icon"></span>Yes — dedicated team</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" id="analytics-team-one" name="Analytics Team" value="Yes — one person wears multiple hats">
+                            <label for="analytics-team-one"><span class="check-icon"></span>Yes — one person wears multiple hats</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" id="analytics-team-no" name="Analytics Team" value="No — marketing team handles it">
+                            <label for="analytics-team-no"><span class="check-icon"></span>No — marketing team handles it</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="radio" id="analytics-team-outsource" name="Analytics Team" value="We outsource analytics">
+                            <label for="analytics-team-outsource"><span class="check-icon"></span>We outsource analytics</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-back btn-hidden">Back</button>
+                    <button type="button" class="btn btn-next" onclick="goToSection(2)">Next Section &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Section 2: Current Tech Stack -->
+            <div class="section-card" data-section="2">
+                <div class="section-label">Section 2 of 7</div>
+                <h2 class="section-title">Current Tech Stack</h2>
+
+                <div class="question-group">
+                    <label class="q-label">What tools do you currently use for marketing analytics?</label>
+                    <p class="q-helper">Select all that apply</p>
+                    <div class="options-grid">
+                        <div class="option-item"><input type="checkbox" id="tool-ga" name="Analytics Tools" value="Google Analytics"><label for="tool-ga"><span class="check-icon"></span>Google Analytics</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-shopify" name="Analytics Tools" value="Shopify Analytics"><label for="tool-shopify"><span class="check-icon"></span>Shopify Analytics</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-meta" name="Analytics Tools" value="Meta Ads Manager"><label for="tool-meta"><span class="check-icon"></span>Meta Ads Manager</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-google-ads" name="Analytics Tools" value="Google Ads"><label for="tool-google-ads"><span class="check-icon"></span>Google Ads</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-tiktok" name="Analytics Tools" value="TikTok Ads"><label for="tool-tiktok"><span class="check-icon"></span>TikTok Ads</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-klaviyo" name="Analytics Tools" value="Klaviyo"><label for="tool-klaviyo"><span class="check-icon"></span>Klaviyo</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-triple" name="Analytics Tools" value="Triple Whale"><label for="tool-triple"><span class="check-icon"></span>Triple Whale</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-northbeam" name="Analytics Tools" value="Northbeam"><label for="tool-northbeam"><span class="check-icon"></span>Northbeam</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-looker" name="Analytics Tools" value="Looker / Data Studio"><label for="tool-looker"><span class="check-icon"></span>Looker / Data Studio</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-sheets" name="Analytics Tools" value="Excel / Google Sheets"><label for="tool-sheets"><span class="check-icon"></span>Excel / Google Sheets</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-tableau" name="Analytics Tools" value="Tableau / Power BI"><label for="tool-tableau"><span class="check-icon"></span>Tableau / Power BI</label></div>
+                        <div class="option-item"><input type="checkbox" id="tool-other" name="Analytics Tools" value="Other"><label for="tool-other"><span class="check-icon"></span>Other</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label">Where does your marketing data currently live?</label>
+                    <p class="q-helper">Select all that apply</p>
+                    <div class="options-grid">
+                        <div class="option-item"><input type="checkbox" id="data-sheets" name="Data Location" value="Spreadsheets"><label for="data-sheets"><span class="check-icon"></span>Spreadsheets</label></div>
+                        <div class="option-item"><input type="checkbox" id="data-native" name="Data Location" value="Platform-native dashboards"><label for="data-native"><span class="check-icon"></span>Platform dashboards</label></div>
+                        <div class="option-item"><input type="checkbox" id="data-warehouse" name="Data Location" value="Data warehouse (Snowflake/BigQuery)"><label for="data-warehouse"><span class="check-icon"></span>Data warehouse</label></div>
+                        <div class="option-item"><input type="checkbox" id="data-3p" name="Data Location" value="Third-party reporting tool"><label for="data-3p"><span class="check-icon"></span>Reporting tool</label></div>
+                        <div class="option-item"><input type="checkbox" id="data-messy" name="Data Location" value="Honestly, it's all over the place"><label for="data-messy"><span class="check-icon"></span>All over the place</label></div>
+                        <div class="option-item"><input type="checkbox" id="data-other" name="Data Location" value="Other"><label for="data-other"><span class="check-icon"></span>Other</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label" for="reporting-process">How do you currently create marketing reports?</label>
+                    <textarea id="reporting-process" name="Reporting Process" placeholder="Walk us through your typical reporting workflow..."></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label">How satisfied are you with your current analytics setup?</label>
+                    <div class="scale-group">
+                        <div class="scale-item"><input type="radio" id="sat-1" name="Analytics Satisfaction" value="1"><label for="sat-1">1</label></div>
+                        <div class="scale-item"><input type="radio" id="sat-2" name="Analytics Satisfaction" value="2"><label for="sat-2">2</label></div>
+                        <div class="scale-item"><input type="radio" id="sat-3" name="Analytics Satisfaction" value="3"><label for="sat-3">3</label></div>
+                        <div class="scale-item"><input type="radio" id="sat-4" name="Analytics Satisfaction" value="4"><label for="sat-4">4</label></div>
+                        <div class="scale-item"><input type="radio" id="sat-5" name="Analytics Satisfaction" value="5"><label for="sat-5">5</label></div>
+                    </div>
+                    <div class="scale-labels"><span>Not at all satisfied</span><span>Very satisfied</span></div>
+                </div>
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-back" onclick="goToSection(1)">&larr; Back</button>
+                    <button type="button" class="btn btn-next" onclick="goToSection(3)">Next Section &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Section 3: Pain Points -->
+            <div class="section-card" data-section="3">
+                <div class="section-label">Section 3 of 7</div>
+                <h2 class="section-title">Pain Points</h2>
+
+                <div class="question-group">
+                    <label class="q-label">What are your biggest frustrations with your current analytics workflow?</label>
+                    <p class="q-helper">Select all that apply</p>
+                    <div class="options-grid">
+                        <div class="option-item"><input type="checkbox" id="pain-manual" name="Pain Points" value="Too much manual data pulling"><label for="pain-manual"><span class="check-icon"></span>Too much manual data pulling</label></div>
+                        <div class="option-item"><input type="checkbox" id="pain-slow" name="Pain Points" value="Reports take too long to create"><label for="pain-slow"><span class="check-icon"></span>Reports take too long</label></div>
+                        <div class="option-item"><input type="checkbox" id="pain-silos" name="Pain Points" value="Data lives in too many places"><label for="pain-silos"><span class="check-icon"></span>Data in too many places</label></div>
+                        <div class="option-item"><input type="checkbox" id="pain-cross" name="Pain Points" value="Hard to get cross-channel insights"><label for="pain-cross"><span class="check-icon"></span>No cross-channel insights</label></div>
+                        <div class="option-item"><input type="checkbox" id="pain-roi" name="Pain Points" value="Can't connect spend to revenue easily"><label for="pain-roi"><span class="check-icon"></span>Can't connect spend to revenue</label></div>
+                        <div class="option-item"><input type="checkbox" id="pain-inconsistent" name="Pain Points" value="Reporting is inconsistent across team"><label for="pain-inconsistent"><span class="check-icon"></span>Inconsistent reporting</label></div>
+                        <div class="option-item"><input type="checkbox" id="pain-trust" name="Pain Points" value="We don't trust our data accuracy"><label for="pain-trust"><span class="check-icon"></span>Don't trust data accuracy</label></div>
+                        <div class="option-item"><input type="checkbox" id="pain-action" name="Pain Points" value="Hard to action insights quickly"><label for="pain-action"><span class="check-icon"></span>Hard to action insights</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label" for="hours-reporting">How many hours per week does your team spend on reporting and data tasks?</label>
+                    <select id="hours-reporting" name="Hours on Reporting">
+                        <option value="" disabled selected>Select hours</option>
+                        <option>Less than 2 hours</option>
+                        <option>2–5 hours</option>
+                        <option>5–10 hours</option>
+                        <option>10–20 hours</option>
+                        <option>20+ hours</option>
+                        <option>Not sure</option>
+                    </select>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label" for="biggest-challenge">What's the single biggest analytics challenge you'd solve if you could?</label>
+                    <textarea id="biggest-challenge" name="Biggest Challenge" placeholder="In an ideal world, what would you fix first?"></textarea>
+                </div>
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-back" onclick="goToSection(2)">&larr; Back</button>
+                    <button type="button" class="btn btn-next" onclick="goToSection(4)">Next Section &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Section 4: AI Experience -->
+            <div class="section-card" data-section="4">
+                <div class="section-label">Section 4 of 7</div>
+                <h2 class="section-title">AI Experience So Far</h2>
+
+                <div class="question-group">
+                    <label class="q-label">How would you describe your team's current AI usage?</label>
+                    <div class="options-grid single-col">
+                        <div class="option-item"><input type="radio" id="ai-none" name="AI Usage Level" value="We haven't really started"><label for="ai-none"><span class="check-icon"></span>We haven't really started</label></div>
+                        <div class="option-item"><input type="radio" id="ai-experiment" name="AI Usage Level" value="A few people experiment individually"><label for="ai-experiment"><span class="check-icon"></span>A few people experiment individually</label></div>
+                        <div class="option-item"><input type="radio" id="ai-some" name="AI Usage Level" value="We use AI tools in some workflows"><label for="ai-some"><span class="check-icon"></span>We use AI tools in some workflows</label></div>
+                        <div class="option-item"><input type="radio" id="ai-integrated" name="AI Usage Level" value="AI is integrated into several processes"><label for="ai-integrated"><span class="check-icon"></span>AI is integrated into several processes</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label">Which AI tools has your team tried?</label>
+                    <p class="q-helper">Select all that apply</p>
+                    <div class="options-grid">
+                        <div class="option-item"><input type="checkbox" id="ai-chatgpt" name="AI Tools Tried" value="ChatGPT"><label for="ai-chatgpt"><span class="check-icon"></span>ChatGPT</label></div>
+                        <div class="option-item"><input type="checkbox" id="ai-claude" name="AI Tools Tried" value="Claude"><label for="ai-claude"><span class="check-icon"></span>Claude</label></div>
+                        <div class="option-item"><input type="checkbox" id="ai-gemini" name="AI Tools Tried" value="Gemini"><label for="ai-gemini"><span class="check-icon"></span>Gemini</label></div>
+                        <div class="option-item"><input type="checkbox" id="ai-copilot" name="AI Tools Tried" value="Copilot"><label for="ai-copilot"><span class="check-icon"></span>Copilot</label></div>
+                        <div class="option-item"><input type="checkbox" id="ai-jasper" name="AI Tools Tried" value="Jasper"><label for="ai-jasper"><span class="check-icon"></span>Jasper</label></div>
+                        <div class="option-item"><input type="checkbox" id="ai-builtin" name="AI Tools Tried" value="AI features in existing tools"><label for="ai-builtin"><span class="check-icon"></span>Built-in AI features</label></div>
+                        <div class="option-item"><input type="checkbox" id="ai-custom" name="AI Tools Tried" value="Custom AI solutions"><label for="ai-custom"><span class="check-icon"></span>Custom AI solutions</label></div>
+                        <div class="option-item"><input type="checkbox" id="ai-none-tools" name="AI Tools Tried" value="None yet"><label for="ai-none-tools"><span class="check-icon"></span>None yet</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label">Have you used Claude or Claude Code specifically?</label>
+                    <div class="options-grid single-col">
+                        <div class="option-item"><input type="radio" id="claude-regular" name="Claude Experience" value="Yes — regularly"><label for="claude-regular"><span class="check-icon"></span>Yes — regularly</label></div>
+                        <div class="option-item"><input type="radio" id="claude-briefly" name="Claude Experience" value="Yes — briefly"><label for="claude-briefly"><span class="check-icon"></span>Yes — briefly</label></div>
+                        <div class="option-item"><input type="radio" id="claude-familiar" name="Claude Experience" value="No but we're familiar with it"><label for="claude-familiar"><span class="check-icon"></span>No, but we're familiar with it</label></div>
+                        <div class="option-item"><input type="radio" id="claude-no" name="Claude Experience" value="No and we're not sure what it does"><label for="claude-no"><span class="check-icon"></span>No — not sure what it does</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label" for="ai-experience">What has worked or not worked with AI so far?</label>
+                    <p class="q-helper">Share any wins, frustrations, or failed experiments</p>
+                    <textarea id="ai-experience" name="AI Experience" placeholder="Tell us about your AI journey so far..."></textarea>
+                </div>
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-back" onclick="goToSection(3)">&larr; Back</button>
+                    <button type="button" class="btn btn-next" onclick="goToSection(5)">Next Section &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Section 5: Goals -->
+            <div class="section-card" data-section="5">
+                <div class="section-label">Section 5 of 7</div>
+                <h2 class="section-title">Goals for This Session</h2>
+
+                <div class="question-group">
+                    <label class="q-label">What does success look like from this 90-minute consult?</label>
+                    <p class="q-helper">Select all that apply</p>
+                    <div class="options-grid">
+                        <div class="option-item"><input type="checkbox" id="goal-understand" name="Session Goals" value="Clear understanding of what Claude Code can do"><label for="goal-understand"><span class="check-icon"></span>Understand Claude Code's capabilities</label></div>
+                        <div class="option-item"><input type="checkbox" id="goal-roadmap" name="Session Goals" value="A prioritised roadmap of quick wins"><label for="goal-roadmap"><span class="check-icon"></span>Prioritised roadmap</label></div>
+                        <div class="option-item"><input type="checkbox" id="goal-workflows" name="Session Goals" value="Specific workflows we can implement immediately"><label for="goal-workflows"><span class="check-icon"></span>Implementable workflows</label></div>
+                        <div class="option-item"><input type="checkbox" id="goal-realistic" name="Session Goals" value="Understanding of what's realistic vs aspirational"><label for="goal-realistic"><span class="check-icon"></span>Realistic expectations</label></div>
+                        <div class="option-item"><input type="checkbox" id="goal-cost" name="Session Goals" value="Cost/time estimates for implementation"><label for="goal-cost"><span class="check-icon"></span>Cost/time estimates</label></div>
+                        <div class="option-item"><input type="checkbox" id="goal-demo" name="Session Goals" value="Live demo of relevant use cases"><label for="goal-demo"><span class="check-icon"></span>Live demo</label></div>
+                        <div class="option-item"><input type="checkbox" id="goal-buyin" name="Session Goals" value="Team buy-in and excitement"><label for="goal-buyin"><span class="check-icon"></span>Team buy-in</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label">Which marketing analytics tasks would you most like to automate or improve?</label>
+                    <p class="q-helper">Select all that apply</p>
+                    <div class="options-grid">
+                        <div class="option-item"><input type="checkbox" id="auto-campaign" name="Tasks to Automate" value="Campaign performance reporting"><label for="auto-campaign"><span class="check-icon"></span>Campaign reporting</label></div>
+                        <div class="option-item"><input type="checkbox" id="auto-attribution" name="Tasks to Automate" value="Cross-channel attribution"><label for="auto-attribution"><span class="check-icon"></span>Cross-channel attribution</label></div>
+                        <div class="option-item"><input type="checkbox" id="auto-competitor" name="Tasks to Automate" value="Competitor monitoring"><label for="auto-competitor"><span class="check-icon"></span>Competitor monitoring</label></div>
+                        <div class="option-item"><input type="checkbox" id="auto-content" name="Tasks to Automate" value="Content performance analysis"><label for="auto-content"><span class="check-icon"></span>Content performance</label></div>
+                        <div class="option-item"><input type="checkbox" id="auto-segment" name="Tasks to Automate" value="Customer segmentation"><label for="auto-segment"><span class="check-icon"></span>Customer segmentation</label></div>
+                        <div class="option-item"><input type="checkbox" id="auto-trends" name="Tasks to Automate" value="Trend identification"><label for="auto-trends"><span class="check-icon"></span>Trend identification</label></div>
+                        <div class="option-item"><input type="checkbox" id="auto-spend" name="Tasks to Automate" value="Ad spend optimisation insights"><label for="auto-spend"><span class="check-icon"></span>Ad spend optimisation</label></div>
+                        <div class="option-item"><input type="checkbox" id="auto-exec" name="Tasks to Automate" value="Executive/board reporting"><label for="auto-exec"><span class="check-icon"></span>Executive reporting</label></div>
+                        <div class="option-item"><input type="checkbox" id="auto-social" name="Tasks to Automate" value="Social media analytics"><label for="auto-social"><span class="check-icon"></span>Social media analytics</label></div>
+                        <div class="option-item"><input type="checkbox" id="auto-copy" name="Tasks to Automate" value="AI-powered copywriting"><label for="auto-copy"><span class="check-icon"></span>AI copywriting</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label" for="upcoming-project">Is there a specific upcoming project or deadline where AI could help?</label>
+                    <textarea id="upcoming-project" name="Upcoming Project" placeholder="e.g. Q2 campaign launch, annual report, new product launch..."></textarea>
+                </div>
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-back" onclick="goToSection(4)">&larr; Back</button>
+                    <button type="button" class="btn btn-next" onclick="goToSection(6)">Next Section &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Section 6: Practical Considerations -->
+            <div class="section-card" data-section="6">
+                <div class="section-label">Section 6 of 7</div>
+                <h2 class="section-title">Practical Considerations</h2>
+
+                <div class="question-group">
+                    <label class="q-label">What's your timeline for implementing AI solutions?</label>
+                    <div class="options-grid single-col">
+                        <div class="option-item"><input type="radio" id="timeline-now" name="Implementation Timeline" value="We want to start immediately"><label for="timeline-now"><span class="check-icon"></span>We want to start immediately</label></div>
+                        <div class="option-item"><input type="radio" id="timeline-1-3" name="Implementation Timeline" value="Within the next 1–3 months"><label for="timeline-1-3"><span class="check-icon"></span>Within the next 1–3 months</label></div>
+                        <div class="option-item"><input type="radio" id="timeline-3-6" name="Implementation Timeline" value="3–6 months"><label for="timeline-3-6"><span class="check-icon"></span>3–6 months</label></div>
+                        <div class="option-item"><input type="radio" id="timeline-explore" name="Implementation Timeline" value="Just exploring for now"><label for="timeline-explore"><span class="check-icon"></span>Just exploring for now</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label">Do you have any concerns about AI adoption?</label>
+                    <p class="q-helper">Select all that apply</p>
+                    <div class="options-grid">
+                        <div class="option-item"><input type="checkbox" id="concern-privacy" name="AI Concerns" value="Data privacy and security"><label for="concern-privacy"><span class="check-icon"></span>Data privacy &amp; security</label></div>
+                        <div class="option-item"><input type="checkbox" id="concern-learning" name="AI Concerns" value="Team learning curve"><label for="concern-learning"><span class="check-icon"></span>Team learning curve</label></div>
+                        <div class="option-item"><input type="checkbox" id="concern-cost" name="AI Concerns" value="Cost of implementation"><label for="concern-cost"><span class="check-icon"></span>Cost of implementation</label></div>
+                        <div class="option-item"><input type="checkbox" id="concern-accuracy" name="AI Concerns" value="Accuracy and reliability"><label for="concern-accuracy"><span class="check-icon"></span>Accuracy &amp; reliability</label></div>
+                        <div class="option-item"><input type="checkbox" id="concern-integration" name="AI Concerns" value="Integration with existing tools"><label for="concern-integration"><span class="check-icon"></span>Integration with existing tools</label></div>
+                        <div class="option-item"><input type="checkbox" id="concern-roles" name="AI Concerns" value="Impact on team roles"><label for="concern-roles"><span class="check-icon"></span>Impact on team roles</label></div>
+                        <div class="option-item"><input type="checkbox" id="concern-start" name="AI Concerns" value="Not sure where to start"><label for="concern-start"><span class="check-icon"></span>Not sure where to start</label></div>
+                    </div>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label" for="tech-comfort">Is there anything else we should know about your team's tech comfort level?</label>
+                    <textarea id="tech-comfort" name="Tech Comfort Level" placeholder="e.g. Some team members are tech-savvy, others prefer simple tools..."></textarea>
+                </div>
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-back" onclick="goToSection(5)">&larr; Back</button>
+                    <button type="button" class="btn btn-next" onclick="goToSection(7)">Next Section &rarr;</button>
+                </div>
+            </div>
+
+            <!-- Section 7: Your Questions -->
+            <div class="section-card" data-section="7">
+                <div class="section-label">Section 7 of 7</div>
+                <h2 class="section-title">Your Questions</h2>
+
+                <div class="question-group">
+                    <label class="q-label" for="questions">What specific questions do you want answered during the session?</label>
+                    <p class="q-helper">List as many as you like — this helps us prepare the most relevant examples and demos</p>
+                    <textarea id="questions" name="Questions for Session" class="large" placeholder="e.g. Can Claude Code pull data from multiple platforms into one dashboard?"></textarea>
+                </div>
+
+                <div class="question-group">
+                    <label class="q-label" for="anything-else">Is there anything else you'd like to share before our session?</label>
+                    <textarea id="anything-else" name="Anything Else" placeholder="Context, links, documents — anything that helps us prepare..."></textarea>
+                </div>
+
+                <div class="nav-buttons">
+                    <button type="button" class="btn btn-back" onclick="goToSection(6)">&larr; Back</button>
+                    <button type="submit" class="btn btn-submit">Submit Questionnaire</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Thank You -->
+        <div class="thank-you" id="thank-you">
+            <div class="checkmark"></div>
+            <h2>Thank you, Valentina!</h2>
+            <p>Your responses have been submitted. I'll review everything before our session so we can dive straight into what matters most to your team.</p>
+            <p style="margin-top: 16px; font-size: 14px; color: var(--light);">If anything changes, feel free to resubmit the form or drop me an email.</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Wright Mode &middot; AI Implementation Consultancy</p>
+        </div>
+    </div>
+
+    <script>
+        // Section navigation
+        function goToSection(num) {
+            const sections = document.querySelectorAll('.section-card');
+            const steps = document.querySelectorAll('.progress-step');
+            const lines = document.querySelectorAll('.progress-line');
+
+            sections.forEach(s => s.classList.remove('active'));
+            document.querySelector(`[data-section="${num}"]`).classList.add('active');
+
+            // Update progress bar
+            steps.forEach((step, i) => {
+                const stepNum = i + 1;
+                step.classList.remove('active', 'completed');
+                if (stepNum < num) step.classList.add('completed');
+                if (stepNum === num) step.classList.add('active');
+            });
+
+            lines.forEach((line, i) => {
+                line.classList.toggle('completed', i < num - 1);
+            });
+
+            // Scroll to top of form
+            document.querySelector('.progress-bar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Form submission via FormSubmit.co AJAX
+        document.getElementById('intake-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const btn = this.querySelector('.btn-submit');
+            btn.textContent = 'Submitting...';
+            btn.classList.add('submitting');
+
+            const formData = new FormData(this);
+
+            fetch('https://formsubmit.co/ajax/brooke@wrightmode.com', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide form and progress bar, show thank you
+                document.getElementById('intake-form').style.display = 'none';
+                document.querySelector('.progress-bar').style.display = 'none';
+                document.getElementById('thank-you').classList.add('active');
+                document.querySelector('.header').scrollIntoView({ behavior: 'smooth' });
+            })
+            .catch(error => {
+                btn.textContent = 'Submit Questionnaire';
+                btn.classList.remove('submitting');
+                alert('Something went wrong — please try again or email your responses directly.');
+            });
+        });
+    </script>
+</body>
+</html>
